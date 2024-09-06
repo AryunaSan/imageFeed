@@ -57,7 +57,7 @@
                                                     <buttonConfiguration key="configuration" style="plain" image="likeActive"/>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" name="YP Black"/>
                                             <constraints>
                                                 <constraint firstItem="FGk-8M-qXB" firstAttribute="top" secondItem="IMt-Ij-TkS" secondAttribute="top" id="2NP-9Q-jvv"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3yU-s8-Cls" secondAttribute="trailing" constant="20" symbolic="YES" id="DzG-dZ-m6E"/>
