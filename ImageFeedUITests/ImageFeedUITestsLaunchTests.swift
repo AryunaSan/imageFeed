@@ -1,9 +1,4 @@
-//
-//  ImageFeedUITestsLaunchTests.swift
-//  ImageFeedUITests
-//
-//  Created by Aryuna on 05.07.2024.
-//
+
 
 import XCTest
 

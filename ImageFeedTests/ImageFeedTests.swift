@@ -1,9 +1,4 @@
-//
-//  ImageFeedTests.swift
-//  ImageFeedTests
-//
-//  Created by Aryuna on 05.07.2024.
-//
+
 
 import XCTest
 @testable import ImageFeed
