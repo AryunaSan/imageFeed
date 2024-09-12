@@ -8,6 +8,7 @@ final class SingleImageViewController: UIViewController {
             guard isViewLoaded, let image else { return }
             singleImage.image = image
             singleImage.frame.size = image.size
+            rescaleAndCenterImageInScrollView(image: image)
         }
     }
     // MARK: - @IBOutlet properties
@@ -25,6 +26,7 @@ final class SingleImageViewController: UIViewController {
         guard let image else { return }
         singleImage.image = image
         singleImage.frame.size = image.size
+        rescaleAndCenterImageInScrollView(image: image)
     }
     // MARK: - @IBAction properties
     
@@ -39,7 +41,26 @@ final class SingleImageViewController: UIViewController {
         )
         present(share, animated: true, completion: nil)
     }
+    // MARK: - Private Methods
+    
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        let minZoomScale = scrollView.minimumZoomScale
+        let maxZoomScale = scrollView.maximumZoomScale
+        view.layoutIfNeeded()
+        let visibleRectSize = scrollView.bounds.size
+        let imageSize = image.size
+        let hScale = visibleRectSize.width / imageSize.width
+        let vScale = visibleRectSize.height / imageSize.height
+        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        scrollView.setZoomScale(scale, animated: false)
+        scrollView.layoutIfNeeded()
+        let newContentSize = scrollView.contentSize
+        let x = (newContentSize.width - visibleRectSize.width) / 2
+        let y = (newContentSize.height - visibleRectSize.height) / 2
+        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
 }
+
 // MARK: - UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
