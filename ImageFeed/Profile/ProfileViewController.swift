@@ -7,7 +7,7 @@ final class ProfileViewController: UIViewController {
     private var nameLabel: UILabel?
     private var nicknameLabel: UILabel?
     private var statusLabel: UILabel?
-    private var userpickImage: UIImageView?
+    private var avatarImageView: UIImageView?
     private var logoutButton: UIButton?
     
     override func viewDidLoad() {
@@ -22,8 +22,8 @@ final class ProfileViewController: UIViewController {
     // MARK: Private methods
     
     private func setUserpickImage() {
-        let userpickImage = UIImage(named: "photo")
-        let imageView = UIImageView(image: userpickImage)
+        let avatarImageView = UIImage(named: "profileMockImage")
+        let imageView = UIImageView(image: avatarImageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
@@ -31,11 +31,11 @@ final class ProfileViewController: UIViewController {
         imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        self.userpickImage = imageView
+        self.avatarImageView = imageView
     }
     
     private func setNameLabel() {
-        guard let profileImage = self.userpickImage else { return }
+        guard let profileImage = self.avatarImageView else { return }
 
         let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
@@ -50,13 +50,13 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setNicknameLabel() {
-        guard let profileImage = self.userpickImage,
+        guard let profileImage = self.avatarImageView,
         let nameLabel = self.nameLabel else { return }
 
         let nicknameLabel = UILabel()
         nicknameLabel.text = "@ekaterina_nov"
         nicknameLabel.font = .systemFont(ofSize: 13)
-        nicknameLabel.textColor = .ypWhite
+        nicknameLabel.textColor = .ypGrey
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nicknameLabel)
         
@@ -66,7 +66,7 @@ final class ProfileViewController: UIViewController {
         
     }
     private func setStatusLabel() {
-        guard let profileImage = self.userpickImage,
+        guard let profileImage = self.avatarImageView,
         let nickNameLabel = self.nicknameLabel else { return }
         
         let statusLabel = UILabel()
@@ -83,14 +83,11 @@ final class ProfileViewController: UIViewController {
     
     private func setLogOutButton() {
         guard let exitImage = UIImage(named: "logOut"),
-              let profileView = self.userpickImage else { return }
+              let profileView = self.avatarImageView else { return }
         
-        let logoutButton = UIButton.systemButton(
-            with: exitImage,
-            target: self,
-            action: #selector(Self.didTapButton)
-        )
-        logoutButton.tintColor = .red
+        let logoutButton = UIButton()
+        logoutButton.setImage(exitImage, for: .normal)
+        logoutButton.addTarget(self, action: #selector(Self.didTapLogoutButton), for: .touchUpInside)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         
@@ -102,6 +99,6 @@ final class ProfileViewController: UIViewController {
         self.logoutButton = logoutButton
     }
     @objc
-    private func didTapButton() {}
+    private func didTapLogoutButton() {}
 }
 
