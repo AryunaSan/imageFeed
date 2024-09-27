@@ -151,7 +151,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKC-42-RCC" userLabel="Sharing Button">
-                                <rect key="frame" x="171.66666666666666" y="752" width="50" height="50"/>
+                                <rect key="frame" x="171.66666666666666" y="786" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="4ZN-4Q-dsc"/>
                                     <constraint firstAttribute="height" constant="50" id="X5G-p0-Jje"/>
@@ -172,7 +172,7 @@
                             <constraint firstItem="V5z-sM-hMH" firstAttribute="bottom" secondItem="soQ-ld-BNe" secondAttribute="bottom" id="TSf-nM-1Ij"/>
                             <constraint firstItem="V5z-sM-hMH" firstAttribute="top" secondItem="soQ-ld-BNe" secondAttribute="top" id="ZdO-36-LpU"/>
                             <constraint firstItem="V5z-sM-hMH" firstAttribute="trailing" secondItem="e6V-Bf-WAK" secondAttribute="trailing" id="iJS-PS-b3X"/>
-                            <constraint firstAttribute="bottom" secondItem="nKC-42-RCC" secondAttribute="bottom" constant="50" id="isL-DL-0h8"/>
+                            <constraint firstItem="e6V-Bf-WAK" firstAttribute="bottom" secondItem="nKC-42-RCC" secondAttribute="bottom" constant="16" id="isL-DL-0h8"/>
                             <constraint firstItem="nKC-42-RCC" firstAttribute="centerX" secondItem="soQ-ld-BNe" secondAttribute="centerX" id="z7m-B7-vYB"/>
                         </constraints>
                     </view>
