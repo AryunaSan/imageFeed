@@ -1,9 +1,4 @@
-//
-//  AppDelegate.swift
-//  ImageFeed
-//
-//  Created by Aryuna on 05.07.2024.
-//
+
 
 import UIKit
 import CoreData

@@ -1,9 +1,3 @@
-//
-//  ImagesListCell.swift
-//  ImageFeed
-//
-//  Created by Aryuna on 08.07.2024.
-//
 
 import UIKit
 
