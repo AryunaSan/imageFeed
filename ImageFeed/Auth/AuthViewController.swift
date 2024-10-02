@@ -4,6 +4,7 @@ import UIKit
 
 final class AuthViewController: UIViewController {
     private let webViewIdentifier = "ShowWebView"
+    private let oauth2Service = OAuth2Service.shared
     
     override func viewDidLoad() {
         configureBackButton()
