@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="42k-1z-w4A">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="e0B-E4-fZr">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -111,7 +111,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="788.54961832061065" y="-28.169014084507044"/>
+            <point key="canvasLocation" x="873" y="-28"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="kJc-LM-RGM">
@@ -191,7 +191,7 @@
         <scene sceneID="nmk-Gx-dOO">
             <objects>
                 <viewController id="1qu-8S-qnF" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gai-Yd-dAa">
+                    <view key="view" userInteractionEnabled="NO" contentMode="scaleToFill" id="gai-Yd-dAa">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Y71-hY-89I"/>
@@ -201,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="txd-tZ-OV7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="788.54961832061065" y="647.18309859154931"/>
+            <point key="canvasLocation" x="873" y="705"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="oqm-Rb-Jy1">
@@ -254,7 +254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbg-mw-1H5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-674" y="-842"/>
+            <point key="canvasLocation" x="873" y="-808"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="4Dm-7f-39M">
@@ -297,7 +297,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Tm-AD-DNu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="209.92366412213741" y="-842.25352112676057"/>
+            <point key="canvasLocation" x="1821" y="-808"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="zvH-rd-An8">
@@ -340,7 +340,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pt-DQ-J14" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1573" y="-841"/>
+            <point key="canvasLocation" x="-57" y="-808"/>
         </scene>
     </scenes>
     <resources>
