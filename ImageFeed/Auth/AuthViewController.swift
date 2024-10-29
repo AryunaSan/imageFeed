@@ -14,6 +14,7 @@ final class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         configureBackButton()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

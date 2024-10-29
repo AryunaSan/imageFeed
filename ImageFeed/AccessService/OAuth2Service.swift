@@ -13,6 +13,15 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     
+    var authToken: String? {
+            get {
+                OAuth2TokenStorage().token
+            }
+            set {
+                OAuth2TokenStorage().token = newValue
+            }
+        }
+
     private enum NetworkError: Error {
             case codeError
         }
@@ -40,11 +49,9 @@ final class OAuth2Service {
             + "&&grant_type=authorization_code",
             relativeTo: baseURL
         ) else {
-            preconditionFailure("Unable to construct unsplashOauthToken")
+            preconditionFailure("Unable to construct unsplashTokenURL")
         }
-        
-        var request = URLRequest(url: url)
-        
+                
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error {
                 completionOnMainThread(.failure(error))
@@ -59,7 +66,7 @@ final class OAuth2Service {
                 let decoder = JSONDecoder()
 
                 do {
-                    let authResponse = try decoder.decode(AuthResponse.self, from: data)
+                    let authResponse = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     completionOnMainThread(.success(authResponse.accessToken))
                 } catch {
                     completionOnMainThread(.failure(error))
