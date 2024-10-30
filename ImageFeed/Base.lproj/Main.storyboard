@@ -206,7 +206,7 @@
         <!--Auth View Controller-->
         <scene sceneID="oqm-Rb-Jy1">
             <objects>
-                <viewController id="e0B-E4-fZr" customClass="AuthViewController" customModule="ImageFeed" sceneMemberID="viewController">
+                <viewController id="e0B-E4-fZr" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bgF-MJ-fhi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -302,7 +302,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="zvH-rd-An8">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="ht7-Ty-NKE" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="ht7-Ty-NKE" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="acT-4m-vsE">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -327,7 +327,7 @@
         <!--Splash View Controller-->
         <scene sceneID="5oQ-6m-qAb">
             <objects>
-                <viewController id="QTb-TZ-Llp" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplashViewController" id="QTb-TZ-Llp" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RK2-Hg-r13">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -343,6 +343,7 @@
                             <constraint firstItem="f5f-Pt-k1R" firstAttribute="centerX" secondItem="RK2-Hg-r13" secondAttribute="centerX" id="XQK-yB-dFb"/>
                         </constraints>
                     </view>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="42k-1z-w4A" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="rqp-te-YRi"/>
                     </connections>

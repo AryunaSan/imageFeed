@@ -4,19 +4,14 @@ import Foundation
 
 final class OAuth2TokenStorage {
     
-    // Хранение токена
+    private let key = "access_token"
+    
     var token: String? {
         get {
-            storage.string(forKey: Keys.token.rawValue)
+            UserDefaults.standard.string(forKey: key)
         }
         set {
-            storage.set(newValue, forKey: Keys.token.rawValue)
+            UserDefaults.standard.setValue(newValue, forKey: key)
         }
-    }
-    
-    private let storage: UserDefaults = .standard
-    
-    private enum Keys: String {
-        case token
     }
 }

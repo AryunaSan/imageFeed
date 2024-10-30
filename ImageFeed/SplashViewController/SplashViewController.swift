@@ -3,18 +3,20 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    // MARK: - Private Properties
+    
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
-
+    // MARK: - Override Methods
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         if oauth2TokenStorage.token != nil {
             switchToTabBarController()
         } else {
-            // Show Auth Screen
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
@@ -27,6 +29,7 @@ final class SplashViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
+    //MARK: - Private Methods
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
@@ -35,6 +38,8 @@ final class SplashViewController: UIViewController {
         window.rootViewController = tabBarController
     }
 }
+
+//MARK: - SplashViewController
 
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -49,7 +54,7 @@ extension SplashViewController {
         }
     }
 }
-
+//MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
