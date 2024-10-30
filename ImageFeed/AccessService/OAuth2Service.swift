@@ -10,8 +10,6 @@ fileprivate struct AuthResponse: Codable {
 }
 
 final class OAuth2Service {
-    static let shared = OAuth2Service()
-    private init() {}
     
     var authToken: String? {
             get {
