@@ -26,6 +26,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.textColor = .ypWhite
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -73,6 +74,7 @@ final class ProfileViewController: UIViewController {
             nicknameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nicknameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
+            statusLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
             statusLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 8),
             logoutButton.widthAnchor.constraint(equalToConstant: 24),
             logoutButton.heightAnchor.constraint(equalToConstant: 24),

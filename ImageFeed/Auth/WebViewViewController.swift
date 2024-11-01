@@ -26,7 +26,7 @@ final class WebViewViewController: UIViewController {
         webView.navigationDelegate = self
         
         loadAuthView()
-        updateProgress()
+        setProgress()
         
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -36,7 +36,7 @@ final class WebViewViewController: UIViewController {
             forKeyPath: #keyPath(WKWebView.estimatedProgress),
             options: .new,
             context: nil)
-        updateProgress()
+        setProgress()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,20 +51,21 @@ final class WebViewViewController: UIViewController {
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
+            setProgress()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
     // MARK: - Private Methods
-    private func updateProgress() {
+    private func setProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+            print("Unable to construct URLComponents")
             return
         }
 
@@ -76,6 +77,7 @@ final class WebViewViewController: UIViewController {
         ]
 
         guard let url = urlComponents.url else {
+            print("Unable to construct UnsplashAuthorizeURL")
             return
         }
 

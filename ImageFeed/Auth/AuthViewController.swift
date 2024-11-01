@@ -8,7 +8,8 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     private let webViewIdentifier = "ShowWebView"
-    
+    private let oauth2Service = OAuth2Service.shared
+
     weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -37,9 +38,19 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
+        vc.dismiss(animated: true)
+        oauth2Service.fetchOAuthToken(code) { result in
+            switch result {
+            case .success:
+                print("Token received")
+                self.delegate?.authViewController(self, didAuthenticateWithCode: code)
+            case .failure:
+                print("Аuthentication error") // TODO [Sprint 11]
+                break
+            }
+        }
     }
-
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
