@@ -38,8 +38,8 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
-        oauth2Service.fetchOAuthToken(code) { result in
+        oauth2Service.fetchOAuthToken(code) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success:
                 print("Token received")
