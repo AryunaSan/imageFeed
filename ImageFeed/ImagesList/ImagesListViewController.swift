@@ -40,7 +40,7 @@ final class ImagesListViewController: UIViewController {
             }
         }
 }
-// MARK: - UITabvleViewDataSource
+// MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
@@ -74,7 +74,7 @@ extension ImagesListViewController {
     }
 }
 
-// MARK: - UITabvleViewDelegate
+// MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)

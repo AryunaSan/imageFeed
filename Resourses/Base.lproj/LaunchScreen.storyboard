@@ -22,7 +22,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="YP Background"/>
+                        <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="Ghd-jn-W3q" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="RXb-S7-ZeC"/>
                             <constraint firstItem="Ghd-jn-W3q" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fFX-rs-Q1R"/>
@@ -36,8 +36,8 @@
     </scenes>
     <resources>
         <image name="Vector" width="72.666664123535156" height="75.333335876464844"/>
-        <namedColor name="YP Background">
-            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="YP Black">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
