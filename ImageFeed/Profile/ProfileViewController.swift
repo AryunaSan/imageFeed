@@ -4,6 +4,10 @@ import UIKit
 final class ProfileViewController: UIViewController {
     
     // MARK: Private properties
+    
+    private let profileService = ProfileService.shared
+    private var profile: Profile?
+    
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 23)
@@ -51,13 +55,14 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let profile = profileService.profile {
+            updateProfileDetails(profile)
+        }
+        
         view.backgroundColor = UIColor.ypBlack
         
-        nameLabel.text = "Екатерина Новикова"
-        nicknameLabel.text = "@ekaterina_nov"
-        statusLabel.text = "Hello, world!"
         logoutButton.addTarget(self, action: #selector(Self.didTapLogoutButton), for: .touchUpInside)
-
+        
         view.addSubview(nameLabel)
         view.addSubview(nicknameLabel)
         view.addSubview(statusLabel)
@@ -80,10 +85,16 @@ final class ProfileViewController: UIViewController {
             logoutButton.heightAnchor.constraint(equalToConstant: 24),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
             logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor)
-])
+        ])
     }
-   
+    
     @objc
     private func didTapLogoutButton() {}
+    
+    private func updateProfileDetails(_ profile: Profile) {
+        nameLabel.text = profile.name
+        nicknameLabel.text = profile.loginName
+        statusLabel.text = profile.bio
+    }
 }
 

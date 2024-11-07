@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		985154C02CD97A2A005C34C2 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985154BF2CD97A2A005C34C2 /* ProfileService.swift */; };
 		98756E8C2C3B5A7600F0CC6E /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98756E8B2C3B5A7600F0CC6E /* ImagesListCell.swift */; };
 		98926CDF2CA75C6B00FF363A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98926CDE2CA75C6B00FF363A /* Constants.swift */; };
 		9899BBFB2C8B9D2A0007D64C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899BBFA2C8B9D2A0007D64C /* ProfileViewController.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		985154BF2CD97A2A005C34C2 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		98756E8B2C3B5A7600F0CC6E /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		98926CDE2CA75C6B00FF363A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9899BBFA2C8B9D2A0007D64C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		985154BE2CD979F7005C34C2 /* ProfileService */ = {
+			isa = PBXGroup;
+			children = (
+				985154BF2CD97A2A005C34C2 /* ProfileService.swift */,
+			);
+			path = ProfileService;
+			sourceTree = "<group>";
+		};
 		98756E8D2C3B5A9A00F0CC6E /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +186,7 @@
 				989C3CC72CCD9105008F32F6 /* SplashViewController */,
 				989C3CC82CCD9129008F32F6 /* AccessService */,
 				98AFE8272CAAD26E005D83FA /* Auth */,
+				985154BE2CD979F7005C34C2 /* ProfileService */,
 				9899BBFC2C8BBF280007D64C /* Profile */,
 				98756E8D2C3B5A9A00F0CC6E /* ImagesList */,
 				98E2B2122C374F8D0066A013 /* Info.plist */,
@@ -361,6 +372,7 @@
 				989C3CC42CCC76F6008F32F6 /* OAuth2TokenStorage.swift in Sources */,
 				98926CDF2CA75C6B00FF363A /* Constants.swift in Sources */,
 				989D19992CD8453500E3BE8A /* UIBlockingProgressHUD.swift in Sources */,
+				985154C02CD97A2A005C34C2 /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
