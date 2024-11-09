@@ -6,7 +6,10 @@ final class ProfileViewController: UIViewController {
     // MARK: Private properties
     
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private var profile: Profile?
+    private var profileImageServiceObserver: NSObjectProtocol?      
+
     
     private var nameLabel: UILabel = {
         let label = UILabel()
@@ -59,6 +62,17 @@ final class ProfileViewController: UIViewController {
             updateProfileDetails(profile)
         }
         
+        profileImageServiceObserver = NotificationCenter.default    
+                    .addObserver(
+                        forName: ProfileImageService.didChangeNotification,
+                        object: nil,
+                        queue: .main
+                    ) { [weak self] _ in
+                        guard let self = self else { return }
+                        self.updateAvatar()
+                    }
+                updateAvatar()
+        
         view.backgroundColor = UIColor.ypBlack
         
         logoutButton.addTarget(self, action: #selector(Self.didTapLogoutButton), for: .touchUpInside)
@@ -86,7 +100,9 @@ final class ProfileViewController: UIViewController {
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
             logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor)
         ])
+        
     }
+    
     
     @objc
     private func didTapLogoutButton() {}
@@ -96,5 +112,13 @@ final class ProfileViewController: UIViewController {
         nicknameLabel.text = profile.loginName
         statusLabel.text = profile.bio
     }
+    
+    private func updateAvatar() {
+            guard
+                let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
+            else { return }
+            // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+        }
 }
 

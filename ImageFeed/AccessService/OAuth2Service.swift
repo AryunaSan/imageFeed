@@ -1,14 +1,6 @@
 
 import Foundation
 
-fileprivate enum AuthErrors: Error {
-    case defaultError
-}
-
-fileprivate enum NetworkError: Error {
-    case codeError
-}
-
 fileprivate struct AuthResponse: Codable {
     let accessToken: String
     
@@ -28,13 +20,8 @@ final class OAuth2Service {
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         
-        let completionOnMainThread: (Result<String, Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
         guard lastCode != code else {
-            completion(.failure(AuthErrors.defaultError))
+            completion(.failure(NetworkError.defaultError))
             return
         }
         
@@ -44,44 +31,29 @@ final class OAuth2Service {
         guard
             let request = makeOAuthTokenRequest(code: code)
         else {
-            completion(.failure(AuthErrors.defaultError))
+            completion(.failure(NetworkError.defaultError))
             return
         }
         
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error {
-                completionOnMainThread(.failure(error))
-                print("Error received requesting data")
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                completionOnMainThread(.failure(NetworkError.codeError))
-                print("Error received requesting data")
-                return
-            }
-            if let data {
-                let decoder = JSONDecoder()
-                
-                do {
-                    let authResponse = try decoder.decode(AuthResponse.self, from: data)
-                    completionOnMainThread(.success(authResponse.accessToken))
-                } catch {
-                    completionOnMainThread(.failure(error))
-                    print("Failed to decode JSON")
-                }
-            } else {
-                completionOnMainThread(.failure(AuthErrors.defaultError))
-                print("Аuthentication error")
-                
-                self.task = nil
-                self.lastCode = nil
-            }
-        }
-        self.task = task
-        task.resume()
+        URLSession.shared.objectTask(for: request) { (result: Result<AuthResponse, Error>) in
+                   switch result {
+                   case .success(let decodedResponse):
+                       let accessToken = decodedResponse.accessToken
+                       OAuth2TokenStorage().token = accessToken
+                       DispatchQueue.main.async {
+                           completion(.success(accessToken))
+                       }
+                   case .failure(let error):
+                       DispatchQueue.main.async {
+                           completion(.failure(error))
+                           let decodingError = NetworkError.decodingError
+                           print("[OAuth2Service.fetchOAuthToken]: \(decodingError)")
+                       }
+                   }
+               }.resume()
+           }
     }
+
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
@@ -101,4 +73,3 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         return request
     }
-}

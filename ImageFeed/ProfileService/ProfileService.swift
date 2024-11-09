@@ -19,20 +19,21 @@ struct Profile {
     let username: String
     let name: String
     let loginName: String
-    let bio: String
-}
-
-fileprivate enum ProfileErrors: Error {
-    case badRequest
-    case codeError
-    case defaultError
+    let bio: String?
     
+    init(username: String, name: String, loginName: String, bio: String?) {
+                self.username = username
+                self.name = name
+                self.loginName = loginName
+                self.bio = bio
+            }
 }
 
 final class ProfileService {
-    private init() {}
     
     static let shared = ProfileService()
+    private init() {}
+    
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private(set) var profile: Profile?
@@ -42,66 +43,47 @@ final class ProfileService {
         assert(Thread.isMainThread)
         
         guard let request = makeRequest() else {
-            completion(.failure(ProfileErrors.badRequest))
+            completion(.failure(NetworkError.badRequest))
             return
         }
         
         if let task = self.task {
             task.cancel()
         }
-            
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let error {
-                completion(.failure(error))
-                print("Error received requesting data")
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                completion(.failure(ProfileErrors.codeError))
-                print("Error received requesting data")
-                return
-            }
-            
-            if let data {
-                let decoder = JSONDecoder()
-                do {
-                    let profileResponse = try decoder.decode(ProfileResult.self, from: data)
-                    let profile = Profile(
-                        username: profileResponse.username,
-                        name: "\(profileResponse.firstName ?? "") \(profileResponse.lastName ?? "")",
-                        loginName: "@\(profileResponse.username)",
-                        bio: profileResponse.bio ?? "")
-                    self.profile = profile
-                    completion(.success(profile))
-                } catch {
-                    completion(.failure(error))
-                    print("Failed to parse: \(error.localizedDescription)")
-                }
-            } else {
-                completion(.failure(ProfileErrors.defaultError))
-                print("Аuthentication error")
-                
-            }
+        
+        let session = URLSession.shared
+               let task = session.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+                   switch result {
+                   case.success(let profileResult):
+                       let profile = Profile(
+                           username: profileResult.username,
+                           name: "\(profileResult.firstName ?? "") \(profileResult.lastName ?? "")",
+                           loginName: "@\(profileResult.username)",
+                           bio: profileResult.bio ?? "")
+                       self.profile = profile
+                       completion(.success(profile))
+                   case.failure(_):
+                       let URLSessionError = NetworkError.urlSessionError
+                       print("[objectTask]: Profile Service Error - \(URLSessionError)")
+                       completion(.failure(URLSessionError))
+                   }
+               }
+               task.resume()
+               self.task = task
+           }
+       }
+    
+    private func makeRequest() -> URLRequest? {
+        guard let urlComponent = URLComponents(string: Constants.defaultBaseURLString + "/me") else {
+            return nil
         }
-        task.resume()
-        self.task = task
+        
+        guard let url = urlComponent.url, let accessToken = OAuth2TokenStorage().token else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("BEARER \(accessToken)", forHTTPHeaderField: "Authorization")
+        return request
+        
     }
-    
-}
-
-private func makeRequest() -> URLRequest? {
-    guard let urlComponent = URLComponents(string: "https://api.unsplash.com/me") else {
-        return nil
-    }
-    
-    guard let url = urlComponent.url, let accessToken = OAuth2TokenStorage().token else {
-        return nil
-    }
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-    request.setValue("BEARER \(accessToken)", forHTTPHeaderField: "Authorization")
-    return request
-    
-}

@@ -10,7 +10,9 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private let storage = OAuth2TokenStorage()
+    private var profile: Profile?
     
     // MARK: - Override Methods
     
@@ -60,13 +62,13 @@ extension SplashViewController {
 //MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-            dismiss(animated: true) { [weak self] in
-                guard let self = self else { return }
-                self.switchToTabBarController()
-            }
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.switchToTabBarController()
         }
+    }
     func didAuthenticate(_ vc: AuthViewController) {
-            vc.dismiss(animated: true)
+        vc.dismiss(animated: true)
         guard let token = storage.token else {
             return
         }
@@ -82,13 +84,21 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             
             switch result {
-            case .success:
-                self.switchToTabBarController()
+            case .success(let profile):
+                DispatchQueue.main.async {
+                    
+                    self.profile = profile
+                    self.fetchProfileImage(profile.username)
+                    self.switchToTabBarController()
+                }
             case .failure:
                 // TODO [Sprint 11] Покажите ошибку получения профиля
                 break
             }
         }
+    }
+    private func fetchProfileImage(_ username: String) {
+        ProfileImageService.shared.fetchProfileImageURL(username: username) {_ in }
     }
     
 }
