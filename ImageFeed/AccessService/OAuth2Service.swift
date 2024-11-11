@@ -36,24 +36,19 @@ final class OAuth2Service {
         }
         
         URLSession.shared.objectTask(for: request) { (result: Result<AuthResponse, Error>) in
-                   switch result {
-                   case .success(let decodedResponse):
-                       let accessToken = decodedResponse.accessToken
-                       OAuth2TokenStorage().token = accessToken
-                       DispatchQueue.main.async {
-                           completion(.success(accessToken))
-                       }
-                   case .failure(let error):
-                       DispatchQueue.main.async {
-                           completion(.failure(error))
-                           let decodingError = NetworkError.decodingError
-                           print("[OAuth2Service.fetchOAuthToken]: \(decodingError)")
-                       }
-                   }
-               }.resume()
-           }
+            switch result {
+            case .success(let decodedResponse):
+                let accessToken = decodedResponse.accessToken
+                OAuth2TokenStorage().token = accessToken
+                    completion(.success(accessToken))
+            case .failure(let error):
+                    completion(.failure(error))
+                    let decodingError = NetworkError.decodingError
+                    print("[OAuth2Service.fetchOAuthToken]: \(decodingError)")
+            }
+        }.resume()
     }
-
+    
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
@@ -73,3 +68,4 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         return request
     }
+}

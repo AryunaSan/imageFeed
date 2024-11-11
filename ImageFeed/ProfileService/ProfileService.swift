@@ -42,7 +42,7 @@ final class ProfileService {
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         
-        guard let request = makeRequest() else {
+        guard let request = makeRequest(token: token) else {
             completion(.failure(NetworkError.badRequest))
             return
         }
@@ -52,28 +52,27 @@ final class ProfileService {
         }
         
         let session = URLSession.shared
-               let task = session.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
-                   switch result {
-                   case.success(let profileResult):
-                       let profile = Profile(
-                           username: profileResult.username,
-                           name: "\(profileResult.firstName ?? "") \(profileResult.lastName ?? "")",
-                           loginName: "@\(profileResult.username)",
-                           bio: profileResult.bio ?? "")
-                       self.profile = profile
-                       completion(.success(profile))
-                   case.failure(_):
-                       let URLSessionError = NetworkError.urlSessionError
-                       print("[objectTask]: Profile Service Error - \(URLSessionError)")
-                       completion(.failure(URLSessionError))
-                   }
-               }
-               task.resume()
-               self.task = task
-           }
-       }
+        let task = session.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            switch result {
+            case.success(let profileResult):
+                let profile = Profile(
+                    username: profileResult.username,
+                    name: "\(profileResult.firstName ?? "") \(profileResult.lastName ?? "")",
+                    loginName: "@\(profileResult.username)",
+                    bio: profileResult.bio ?? "")
+                self.profile = profile
+                completion(.success(profile))
+            case.failure(_):
+                let URLSessionError = NetworkError.urlSessionError
+                print("[objectTask]: Profile Service Error - \(URLSessionError)")
+                completion(.failure(URLSessionError))
+            }
+        }
+        task.resume()
+        self.task = task
+    }
     
-    private func makeRequest() -> URLRequest? {
+    private func makeRequest(token: String) -> URLRequest? {
         guard let urlComponent = URLComponents(string: Constants.defaultBaseURLString + "/me") else {
             return nil
         }
@@ -85,5 +84,5 @@ final class ProfileService {
         request.httpMethod = "GET"
         request.setValue("BEARER \(accessToken)", forHTTPHeaderField: "Authorization")
         return request
-        
     }
+}

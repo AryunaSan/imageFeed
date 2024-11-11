@@ -27,7 +27,7 @@ final class ProfileImageService {
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         
-        guard let request = makeRequest() else {
+        guard let request = makeRequest(username: username) else {
             completion(.failure(NetworkError.badRequest))
             return
         }
@@ -37,29 +37,28 @@ final class ProfileImageService {
         }
         
         let session = URLSession.shared
-                task = session.objectTask(for: request) { (result: Result<UserResult, Error>) in
-                    switch result {
-                    case.success(let userResult):
-                        self.avatarURL = userResult.profileImage.small
-                        NotificationCenter.default
-                            .post(
-                                name: ProfileImageService.didChangeNotification,
-                                object: self,
-                                userInfo: ["URL": userResult.profileImage.small]
-                            )
-                        completion(.success(userResult.profileImage.small))
-                    case .failure(let error):
-                        let invalidSessionError = NetworkError.urlSessionError
-                        print("[objectTask]: fetchProfileImageURL - \(invalidSessionError)")
-                        
-                        completion(.failure(error))
-                    }
-                }
-                task?.resume()
+        let task = session.objectTask(for: request) { (result: Result<UserResult, Error>) in
+            switch result {
+            case.success(let userResult):
+                self.avatarURL = userResult.profileImage.small
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": userResult.profileImage.small]
+                    )
+                completion(.success(userResult.profileImage.small))
+            case .failure(let error):
+                let invalidSessionError = NetworkError.urlSessionError
+                print("[objectTask]: fetchProfileImageURL - \(invalidSessionError)")
+                completion(.failure(error))
             }
+            self.task?.resume()
+        }
+    }
     
-    func makeRequest() -> URLRequest? {
-        guard let urlComponent = URLComponents(string: Constants.defaultBaseURLString + "/users/:username") else {
+    func makeRequest(username: String) -> URLRequest? {
+        guard let urlComponent = URLComponents(string: Constants.defaultBaseURLString + "/users/\(username)") else {
             return nil
         }
         

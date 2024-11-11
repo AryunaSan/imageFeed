@@ -14,6 +14,6 @@ final class OAuth2TokenStorage {
         set {
             guard let newValue else { return }
             KeychainWrapper.standard.set(newValue, forKey: key)
-        }
+        } 
     }
 }
