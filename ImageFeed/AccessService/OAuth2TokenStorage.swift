@@ -1,6 +1,7 @@
 
 
 import Foundation
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
     
@@ -8,10 +9,11 @@ final class OAuth2TokenStorage {
     
     var token: String? {
         get {
-            UserDefaults.standard.string(forKey: key)
+            return KeychainWrapper.standard.string(forKey: key)
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: key)
+            guard let newValue else { return }
+            KeychainWrapper.standard.set(newValue, forKey: key)
         }
     }
 }
