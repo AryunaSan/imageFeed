@@ -22,10 +22,17 @@ final class ProfileImageService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private(set) var avatarURL: String?
+    private var lastUsername: String?
     
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
+        
+        guard lastUsername != username else {
+            completion(.failure(NetworkError.badRequest))
+            print("[lastUsername]: ProfileImageService Error - \(NetworkError.badRequest)")
+            return
+        }
         
         guard let request = makeRequest(username: username) else {
             completion(.failure(NetworkError.badRequest))
@@ -36,6 +43,8 @@ final class ProfileImageService {
         if let task = self.task {
             task.cancel()
         }
+        
+        lastUsername = username
         
         let session = URLSession.shared
         let task = session.objectTask(for: request) { (result: Result<UserResult, Error>) in
@@ -53,9 +62,11 @@ final class ProfileImageService {
                 print("[objectTask]: Profile Image Service - \(NetworkError.urlSessionError)")
                 completion(.failure(error))
             }
-            task.resume()
-            self.task = task
+            self.task = nil
+            self.lastUsername = nil
         }
+        task.resume()
+        self.task = task
     }
     
     func makeRequest(username: String) -> URLRequest? {
