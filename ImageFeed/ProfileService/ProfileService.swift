@@ -44,6 +44,7 @@ final class ProfileService {
         
         guard let request = makeRequest(token: token) else {
             completion(.failure(NetworkError.badRequest))
+            print("[makeRequest]: Profile Service Error - \(NetworkError.badRequest)")
             return
         }
         
@@ -62,10 +63,9 @@ final class ProfileService {
                     bio: profileResult.bio ?? "")
                 self.profile = profile
                 completion(.success(profile))
-            case.failure(_):
-                let URLSessionError = NetworkError.urlSessionError
-                print("[objectTask]: Profile Service Error - \(URLSessionError)")
-                completion(.failure(URLSessionError))
+            case.failure(let error):
+                print("[objectTask]: Profile Service Error - \(NetworkError.urlSessionError)")
+                completion(.failure(error))
             }
         }
         task.resume()
@@ -77,12 +77,12 @@ final class ProfileService {
             return nil
         }
         
-        guard let url = urlComponent.url, let accessToken = OAuth2TokenStorage().token else {
+        guard let url = urlComponent.url, let token = OAuth2TokenStorage().token else {
             return nil
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("BEARER \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("BEARER \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
 }

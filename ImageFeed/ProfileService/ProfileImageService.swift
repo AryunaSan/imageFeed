@@ -15,9 +15,9 @@ struct ProfileImageURL: Codable {
 }
 
 final class ProfileImageService {
-    
     static let shared = ProfileImageService()
     private init() {}
+    
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -29,6 +29,7 @@ final class ProfileImageService {
         
         guard let request = makeRequest(username: username) else {
             completion(.failure(NetworkError.badRequest))
+            print("[makeRequest]: ProfileImageService Error - \(NetworkError.badRequest)")
             return
         }
         
@@ -49,11 +50,11 @@ final class ProfileImageService {
                     )
                 completion(.success(userResult.profileImage.small))
             case .failure(let error):
-                let invalidSessionError = NetworkError.urlSessionError
-                print("[objectTask]: fetchProfileImageURL - \(invalidSessionError)")
+                print("[objectTask]: Profile Image Service - \(NetworkError.urlSessionError)")
                 completion(.failure(error))
             }
-            self.task?.resume()
+            task.resume()
+            self.task = task
         }
     }
     
@@ -62,12 +63,12 @@ final class ProfileImageService {
             return nil
         }
         
-        guard let url = urlComponent.url, let accessToken = OAuth2TokenStorage().token else {
+        guard let url = urlComponent.url, let token = OAuth2TokenStorage().token else {
             return nil
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("BEARER \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("BEARER \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
 }
