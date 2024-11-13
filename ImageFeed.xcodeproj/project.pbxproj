@@ -142,12 +142,12 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		988A7B602CE26BEA001A1075 /* TapBarController */ = {
+		988A7B602CE26BEA001A1075 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
 				988A7B612CE26C19001A1075 /* TabBarController.swift */,
 			);
-			path = TapBarController;
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 		9899BBFC2C8BBF280007D64C /* Profile */ = {
@@ -208,13 +208,13 @@
 		98E2B2002C374F8C0066A013 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				988A7B602CE26BEA001A1075 /* TapBarController */,
 				98E2B2012C374F8C0066A013 /* AppDelegate.swift */,
 				98E2B2032C374F8C0066A013 /* SceneDelegate.swift */,
 				98E2B2072C374F8C0066A013 /* Main.storyboard */,
 				98926CDE2CA75C6B00FF363A /* Constants.swift */,
 				989D19982CD8453500E3BE8A /* UIBlockingProgressHUD.swift */,
 				988A7B552CDEEC00001A1075 /* Extension */,
+				988A7B602CE26BEA001A1075 /* TabBarController */,
 				989C3CC72CCD9105008F32F6 /* SplashViewController */,
 				989C3CC82CCD9129008F32F6 /* AccessService */,
 				98AFE8272CAAD26E005D83FA /* Auth */,
